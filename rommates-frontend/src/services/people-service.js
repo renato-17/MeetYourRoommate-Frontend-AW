@@ -4,7 +4,7 @@ class PeopleService {
 
     getPersonByData(mail, password){
         return http.get(`/people?mail=${mail},password=${password}`);
-    }
+    }   
 
 }
 
