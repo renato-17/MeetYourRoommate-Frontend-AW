@@ -1,4 +1,4 @@
-# rommates-frontend
+# roommate-w
 
 ## Project setup
 ```
