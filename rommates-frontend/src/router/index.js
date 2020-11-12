@@ -26,6 +26,11 @@ const routes = [
     name: 'Student',
 
     component: ()=> import('../components/Student')
+  },
+  {
+    path: '/home/:id',
+    name: 'HomeApp',
+    component: ()=>import('../pages/Main-page')
   }
 
 ]

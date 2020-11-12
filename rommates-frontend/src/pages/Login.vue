@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-content class="login-background">
+    <v-main class="login-background">
       <v-container class="fill-height" fluid>
           <v-row align="center" justify="center">
             <v-col cols="12" sm="8" md="8">
@@ -30,19 +30,19 @@
                                 name="Email"
                                 prepend-icon="email"
                                 type="text"
-                                color="red accent-4"/>
+                                color="red accent-4"></v-text-field>
                               <v-text-field
                                 v-model="password"
                                 label="Password"
                                 name="Password"
                                 prepend-icon="lock"
                                 type="password"
-                                color="red accent-4"/>
+                                color="red accent-4"></v-text-field>
                             </v-form>
                             <h3 class="text-center mt-3">Forget your password ?</h3>
                           </v-card-text>
                           <div class="text-center mb-6">
-                            <v-btn rounded color="red accent-4" class="pr-8 pl-8" dark @click="enterToTheApplication()">LOGIN</v-btn>
+                            <v-btn rounded color="red accent-4" class="pr-8 pl-8" dark @click="confirmData">LOGIN</v-btn>
                           </div>
                         </v-col>
                         <v-col cols="12" md="4" class="red accent-4 d-flex">
@@ -120,7 +120,7 @@
             </v-col>
           </v-row>
       </v-container>
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 
@@ -148,23 +148,19 @@ name: "Login",
 
   methods: {
     confirmData(){
+
       PeopleService.getPersonByData(this.mail,this.password)
           .then((response)=>{
             this.user = response.data;
-            if(this.user.id!=0) {
-              return true;
-            }
-            return false;
+            this.enterToTheApplication(response.data.id);
           })
           .catch(e=>{
             console.log(e);
             return false;
           })
     },
-    enterToTheApplication(){
-      if(this.confirmData()) {
-        this.$router.push({name: 'Student', params: {id: this.item.id.toString()}});
-      }
+    enterToTheApplication(id){
+        this.$router.push({name: 'HomeApp', params: {id: id} });
     }
   }
 }

@@ -21,6 +21,9 @@
       </v-container>
 
     </v-card-text>
+    <v-card-actions>
+      <v-btn @click="goBack(item.id)">Back</v-btn>
+    </v-card-actions>
   </v-card>
 
 </template>
@@ -58,6 +61,9 @@ name: "Student",
           .catch(e => {
             console.log((e));
           })
+    },
+    goBack(id){
+      this.$router.push({name: 'HomeApp', params: {id: id} });
     }
 
   },
