@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-
+import StudentRegister from '../pages/Student-register'
 Vue.use(VueRouter)
 
 const routes = [
@@ -12,14 +12,13 @@ const routes = [
   },
   {
     path: '/login',
-    name: 'Login',
-    component: () => import('../pages/Login')
+    ame: 'Login',
+    component: () => import('../pages/Login'),
   },
   {
-    path: '/students',
-    name: 'Students',
-
-    component: ()=> import('../pages/Student-register')
+    path: '/login/students',
+    name: 'RegisterStudent',
+    component: StudentRegister
   },
   {
     path: '/students/:id',
