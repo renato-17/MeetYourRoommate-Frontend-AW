@@ -7,12 +7,17 @@ const routes = [
   {
     path: '/lessors/:id',
     name: 'Lessor',
-    component: () => import('../components/lessors')
+    component: () => import('../components/lessor')
   },
   {
-    path: '/lessors/:lessorId/properties',
+    path: '/properties/:id',
     name: 'Property',
     component: () => import('../components/property')
+  },
+  {
+    path: '/ads',
+    name: 'Ads',
+    component: () => import('../components/ads')
   }
 ]
 
