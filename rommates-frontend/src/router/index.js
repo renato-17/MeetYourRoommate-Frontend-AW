@@ -28,6 +28,11 @@ const routes = [
     path: '/lessors/:id/properties/add-property',
     name: 'add-property',
     component: () => import('../pages/add-property')
+  },
+  {
+    path: '/lessors/:id/reservation/:propertyId/:studentId',
+    name: 'reservation',
+    component: () => import('../components/reservation')
   }
 
 ]

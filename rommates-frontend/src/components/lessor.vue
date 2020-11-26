@@ -65,8 +65,8 @@
                                     <v-data-table :headers="headersLease" :items="displayLeases" :items-per-page="5" :search="search"
                                                   class="elevation-1" ref="leaseTable" v-show="!hiddenR">
                                         <template v-slot:[`item.actions`]="{ item }">
-                                            <v-icon small class="mr-2" @click="acceptLease(item.personOneId)" color="green">mdi-plus</v-icon>
-                                             <v-icon small class="mr-2" @click="rejectLease(item.personOneId)" color="red">mdi-minus</v-icon>
+                                            <v-icon small class="mr-2" @click="acceptLease(item.id, item.propertyId)" color="green">mdi-plus</v-icon>
+                                             <v-icon small class="mr-2" @click="rejectLease(item.id)" color="red">mdi-minus</v-icon>
                                         </template>
                                     </v-data-table>
                                 </v-card-text>
@@ -116,6 +116,7 @@
 <script>
     import LessorService from '@/services/lessors-service';
     import LeaseRequestService from '@/services/lease-request-service';
+    import StudentService from '@/services/students-service';
     export default {
         name: "lessors",
         data() {
@@ -135,8 +136,8 @@
                     premium: false
                 },
                 headersLease: [
-                    {text: 'Name', value: 'personOneId'},
-                    {text: 'LastName', value: 'personOneId'},
+                    {text: 'Name', value: 'firstName'},
+                    {text: 'LastName', value: 'lastName'},
                     {text: 'Status', value: 'status'},
                     {text: 'Actions', value: 'actions', sortable: false}
                 ],
@@ -172,16 +173,33 @@
                     });
             },
             getDisplayLease(lease) {
-                return {
-                    personOneId: lease.personOneId,
-                    personTwoId: lease.personTwoId,
+                let student = {
+                    id:0,
+                    firstName: '',
+                    lastName: '',
                     status: lease.statusDetail,
                 };
+                let item1 ={};
+                StudentService.getById(lease.personOneId)
+                    .then((response) => {
+                        item1 = response.data;
+                        student.id = item1.id;
+                        student.firstName= item1.firstName;
+                        student.lastName = item1.lastName;
+                        console.log(student);
+                    })
+                console.log(student);
+                return student;
             },
             acceptLease(personOneId){
                 this.data.answer = 1;
+                let propertyId;
                 LeaseRequestService.update(personOneId,this.$route.params.id,this.data)
-                this.refreshList();
+                    .then((response) => {
+                        propertyId= response.data.propertyId;
+                        this.goToCreateReservation(personOneId,propertyId);
+                        this.refreshList();
+                    })
             },
             rejectLease(personOneId){
                 LeaseRequestService.delete(personOneId,this.$route.params.id);
@@ -195,6 +213,9 @@
             },
             createProperties(){
                 this.$router.push({ name: 'add-property', params: { id: this.$route.params.id}})
+            },
+            goToCreateReservation(personOneId,propertyId){
+                this.$router.push({ name: 'reservation', params: { id: this.$route.params.id, propertyId: propertyId, studentId: personOneId}})
             }
         },
         created(){
