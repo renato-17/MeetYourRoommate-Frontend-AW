@@ -82,7 +82,7 @@
                                 <v-card-text>
                                     <v-row>
                                         <v-col>
-                                            <v-btn tile color="success" v-show="!hiddenP">
+                                            <v-btn tile color="success" v-show="!hiddenP" @click="createProperties()">
                                                 <v-icon left>
                                                     mdi-plus
                                                 </v-icon>
@@ -192,6 +192,9 @@
             },
             goToMyProperties(){
                 this.$router.push({ name: 'properties', params: { id: this.$route.params.id} })
+            },
+            createProperties(){
+                this.$router.push({ name: 'add-property', params: { id: this.$route.params.id}})
             }
         },
         created(){

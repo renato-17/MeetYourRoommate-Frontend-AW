@@ -23,7 +23,13 @@ const routes = [
     path: '/lessors/:id/properties',
     name: 'properties',
     component: () => import('../components/properties')
+  },
+  {
+    path: '/lessors/:id/properties/add-property',
+    name: 'add-property',
+    component: () => import('../pages/add-property')
   }
+
 ]
 
 const router = new VueRouter({

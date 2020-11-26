@@ -32,6 +32,32 @@
                                 </v-col>
                             </v-row>
                         </v-container>
+                        <v-container>
+                            <v-row class="d-flex justify-center mb-6">
+                                <v-col cols="12" sm="6" md="4">
+                                    SquareMeters: {{ details.squareMeters}}
+                                </v-col>
+                                <v-col cols="12" sm="6" md="4">
+                                    Rooms: {{ details.rooms}}
+                                </v-col>
+                            </v-row>
+                            <v-row class="d-flex justify-center mb-6">
+                                <v-col cols="12" sm="6" md="4">
+                                    Bathrooms: {{ details.bathrooms}}
+                                </v-col>
+                                <v-col cols="12" sm="6" md="4">
+                                    Kitchen: {{details.kitchen}}
+                                </v-col>
+                            </v-row>
+                            <v-row class="d-flex justify-center mb-6">
+                                <v-col cols="12" sm="6" md="4">
+                                    Livingroom: {{details.livingroom}}
+                                </v-col>
+                                <v-col cols="12" sm="6" md="4">
+                                    Price: S/{{details.price}}
+                                </v-col>
+                            </v-row>
+                        </v-container>
                     </v-card-text>
                     <v-card-actions>
                         <v-row>
@@ -50,11 +76,21 @@
 
 <script>
     import PropertyService from '../services/property-service';
+    import PropertyDetailService from '@/services/property-details-service'
+
     export default {
         name: "property",
         data() {
             return {
-                item: {}
+                item: {},
+                details: {
+                    squareMeters: 0,
+                    rooms: 0,
+                    bathrooms: 0,
+                    kitchen: 0,
+                    livingroom: 0,
+                    price: 0
+                }
             }
         },
         methods: {
@@ -68,10 +104,22 @@
                 .catch(e=> {
                     console.log(e);
                 })
+            },
+            getPropertyDetail(id){
+                PropertyDetailService.get(id)
+                    .then((response) => {
+                        this.details = response.data;
+                        // To print data
+                        console.log('this.details', this.details)
+                    })
+                    .catch(e=> {
+                        console.log(e);
+                    })
             }
         },
         created(){
             this.getById(this.$route.params.id);
+            this.getPropertyDetail(this.$route.params.id);
         }
     }
 </script>
