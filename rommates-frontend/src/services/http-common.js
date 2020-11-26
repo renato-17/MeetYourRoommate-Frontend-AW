@@ -1,10 +1,8 @@
-import axios from "axios";
-
+import axios from 'axios';
 
 export default axios.create({
-    baseURL: 'https://meetyourroommate-api.azurewebsites.net/api/',
+    baseURL: 'https://meetyourroommateapi.azurewebsites.net/api',
     headers: {
-        'Content type': 'application/json'
+        'Content-type': 'application/json'
     }
 });
-
