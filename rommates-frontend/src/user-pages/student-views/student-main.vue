@@ -12,7 +12,7 @@
                     <v-img :src="image" height="430px"></v-img>
                     <v-card-actions>
                       <v-btn @click="goToProfile(item.id)">Mi Profile</v-btn>
-                      <v-btn @click="logout()">Logout</v-btn>
+                      <v-btn @click="logout">LOG OUT</v-btn>
                     </v-card-actions>
                   </v-card>
                 </v-col>
@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import Header from "@/pages/Header";
+import Header from "@/user-pages/general-views/header";
 import StudentService from "@/services/students-service";
 
 export default {
@@ -86,14 +86,22 @@ name: "Main-page",
           })
     },
     goToProfile(id){
-      this.$router.push({name: 'Student', params: {id: id} });
+      this.$router.push({name: 'student', params: {id: id} });
     },
-    logout(){
-      this.$router.push({name: 'Login' });
-    }
+    logout() {
+      this.$store.dispatch('auth/logout');
+      this.$router.push({name: 'login'});
+    },
+  },
+  computed: {
+    currentUser(){
+      console.log(this.$store.state.auth.user);
+      return this.$store.state.auth.user;
+    },
+
   },
   created() {
-    this.getById(this.$route.params.id);
+    this.getById(this.currentUser.id);
   },
 }
 </script>

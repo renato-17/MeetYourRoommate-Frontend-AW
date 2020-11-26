@@ -1,12 +1,12 @@
 <template>
 
     <v-toolbar color="white" flat class="mt-0 elevation-4">
-      <v-toolbar-title><img src="../assets/logo-m.png" alt="logo" id="logo" class="mt-3"></v-toolbar-title>
+      <v-toolbar-title><img src="../../assets/logo-m.png" alt="logo" id="logo" class="mt-3"></v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items>
-        <v-btn text @click="goToInicio()">Inicio</v-btn>
+        <v-btn text @click="goToInicio">Inicio</v-btn>
         <v-btn text>Roommates</v-btn>
-        <v-btn text>Anuncios</v-btn>
+        <v-btn text @click="goToAds">Anuncios</v-btn>
         <v-btn text>Mi Plan</v-btn>
         <v-btn text>Contáctanos</v-btn>
       </v-toolbar-items>
@@ -25,7 +25,10 @@ export default {
   },
   methods: {
     goToInicio(){
-      this.$router.go();
+      this.$router.push({name: 'student-home'})
+    },
+    goToAds(){
+      this.$router.push({name: 'ads'})
     }
   },
   created() {

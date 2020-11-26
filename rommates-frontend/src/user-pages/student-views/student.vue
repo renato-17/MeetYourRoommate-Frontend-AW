@@ -41,7 +41,7 @@
 
     </v-card-text>
     <v-card-actions>
-      <v-btn @click="goBack(item.id)">Back</v-btn>
+      <v-btn @click="logout">Logout</v-btn>
     </v-card-actions>
   </v-card>
 
@@ -52,23 +52,10 @@ import StudentService from "@/services/students-service"
 
 export default {
 name: "Student",
+
   data() {
     return{
-      item: {
-        id:0,
-        firstName: '',
-        lastName: '',
-        dni: '',
-        phone: '',
-        gender: '',
-        address: '',
-        password: '',
-        mail: '',
-        birthdate: '',
-        description: '',
-        hobbies: '',
-        smoker: false
-      }
+      item: {}
     }
   },
   methods: {
@@ -81,14 +68,30 @@ name: "Student",
             console.log((e));
           })
     },
-    goBack(id){
-      this.$router.push({name: 'HomeApp', params: {id: id} });
+    goBack(){
+      this.$router.push({name: 'home'});
+    },
+    logout() {
+      this.$store.dispatch('auth/logout');
+      this.$router.push({name: 'login'});
     }
 
   },
+  computed: {
+    currentUser(){
+      console.log(this.$store.state.auth.user);
+      return this.$store.state.auth.user;
+    }
+  },
+  mounted() {
+    if(!this.currentUser){
+      this.$router.push('/login');
+    }
+  },
   created() {
-    this.getById(this.$route.params.id);
+    this.getById(this.currentUser.id);
   }
+
 
 }
 </script>
