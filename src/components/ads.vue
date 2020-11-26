@@ -38,7 +38,7 @@
                                                 </v-row>
                                             </v-card-text>
                                             <v-card-actions class="d-flex flex-column mb-2">
-                                                <v-btn class="btn" @click="goToProfile(item.dni)">
+                                                <v-btn class="btn" @click="goToProperty(item.id)">
                                                     SEE MORE
                                                 </v-btn>
                                             </v-card-actions>
@@ -74,6 +74,9 @@
                     .catch(e => {
                         console.log(e);
                     })
+            },
+            goToProperty(id){
+                this.$router.push({ name: 'Property', params: { id: id}})
             }
         },
         mounted() {

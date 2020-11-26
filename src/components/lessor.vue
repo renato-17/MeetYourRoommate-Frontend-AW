@@ -62,10 +62,13 @@
                                     </v-btn>
                                 </v-card-text>
                                 <v-card-text>
-                                        <p v-show="!hiddenR">Una tabla de request</p>
-                                        <p v-show="!hiddenR">Request 1</p>
-                                        <p v-show="!hiddenR">Request 2</p>
-                                        <p v-show="!hiddenR">Request 2</p>
+                                    <v-data-table :headers="headersLease" :items="displayLeases" :items-per-page="5" :search="search"
+                                                  class="elevation-1" ref="leaseTable" v-show="!hiddenR">
+                                        <template v-slot:[`item.actions`]="{ item }">
+                                            <v-icon small class="mr-2" @click="acceptLease(item.personOneId)" color="green">mdi-plus</v-icon>
+<!--                                            <v-icon small class="mr-2" @click="rejectLease(item.personOneId)" color="red">mdi-minus</v-icon>-->
+                                        </template>
+                                    </v-data-table>
                                 </v-card-text>
                             </v-card>
                         </v-col>
@@ -122,10 +125,12 @@
 
 <script>
     import LessorService from '@/services/lessors-service';
+    import LeaseRequestService from '@/services/lease-request-service';
     export default {
         name: "lessors",
         data() {
             return {
+                search: '',
                 item: {
                     id:0,
                     firstName: '',
@@ -139,6 +144,15 @@
                     birthdate: '',
                     premium: false
                 },
+                headersLease: [
+                    {text: 'Name', value: 'personOneId'},
+                    {text: 'LastName', value: 'personOneId'},
+                    {text: 'Status', value: 'status'},
+                    {text: 'Actions', value: 'actions', sortable: false}
+                ],
+                leases: [],
+                displayLeases: [],
+                students: {},
                 hiddenR: false,
                 hiddenP: false,
             }
@@ -152,11 +166,33 @@
                     })
                     .catch(e => {
                         console.log(e);
+                    });
+            },
+            getAllReceivedLease(id) {
+                LeaseRequestService.getAllReceivedLeaseRequest(id)
+                    .then((response) => {
+                       this.leases = response.data;
+                       this.displayLeases = response.data.map(this.getDisplayLease);
                     })
-            }
+                    .catch(e => {
+                        console.log(e);
+                    });
+            },
+            getDisplayLease(lease) {
+                return {
+                    personOneId: lease.personOneId,
+                    personTwoId: lease.personTwoId,
+                    status: lease.statusDetail,
+                };
+            },
+            acceptLease(personOneId){
+                console.log(personOneId),
+                LeaseRequestService.update(1,this.$route.params.id, 2)
+            },
         },
         created(){
             this.getById(this.$route.params.id);
+            this.getAllReceivedLease(this.$route.params.id);
         }
     }
 </script>
