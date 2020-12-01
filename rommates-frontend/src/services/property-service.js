@@ -4,6 +4,9 @@ class PropertyService {
     getAll() {
         return http.get('/properties');
     }
+    getAllMyProperties(lessorId){
+        return http.get(`/lessors/${lessorId}/properties`);
+    }
     get(id) {
         return http.get(`/properties/${id}`)
     }

@@ -77,7 +77,7 @@
                     })
             },
             goToProperty(id){
-                this.$router.push({ name: 'Property', params: { id: id}})
+                this.$router.push({ name: 'property', params: { id: id}})
             }
         },
         mounted() {

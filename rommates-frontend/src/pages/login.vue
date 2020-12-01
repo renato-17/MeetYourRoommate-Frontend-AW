@@ -95,7 +95,7 @@ export default {
   },
   created() {
     if(this.loggedIn){
-      this.$router.push({name: 'student-home'})
+      this.$router.push({name: 'student-home'});
     }
   },
   methods: {
@@ -112,8 +112,13 @@ export default {
         this.$store.dispatch('auth/login', this.user).then(
             () => {
               console.log('Logged In');
+              console.log(this.$store.state.auth.user.discriminator);
+
               if(this.$store.state.auth.user.discriminator === 'student'){
                 this.$router.push({name: 'student-home'});
+              }else{
+                console.log(this.$store.state.auth.user.id);
+                this.$router.push({name: 'lessors', params: {id: '2' }});
               }
             },
             error => {

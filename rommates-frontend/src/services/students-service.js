@@ -2,6 +2,9 @@ import http from './http-common'
 
 class StudentsService{
 
+    getAll(){
+        return http.get(`/students`);
+    }
     getById(id){
         return http.get(`/students/${id}`);
     }

@@ -1,56 +1,18 @@
 <template>
   <v-app>
     <v-main>
-      <Header v-model="item.id"></Header>
+      <Header></Header>
       <v-container class="pt-0 pl-0 pr-0">
         <v-row align="center" justify="center">
-            <v-col cols="12" md="12">
-              <v-row>
-                <v-col cols="6">
-                  <v-card class="elevation-4 d-flex flex-column" color="grey">
+            <v-col cols="6" md="6">
+                  <v-card class="elevation-4 d-flex flex-column" color="grey" width="500px">
                     <v-card-title class="align-self-center display-1 white--text">Hello {{item.firstName}}!</v-card-title>
                     <v-img :src="image" height="430px"></v-img>
-                    <v-card-actions>
+                    <v-card-actions class="d-flex justify-center" >
                       <v-btn @click="goToProfile(item.id)">Mi Profile</v-btn>
                       <v-btn @click="logout">LOG OUT</v-btn>
                     </v-card-actions>
                   </v-card>
-                </v-col>
-                <v-col cols="6" class="pt-0">
-                  <v-row align="center" justify="center">
-                    <v-col cols="6">
-                      <v-card class="elevation-4 mx-auto d-flex flex-column" color="red">
-                        <v-img src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-                               height="200px"></v-img>
-                        <v-card-title class="align-self-center">PARTNERS</v-card-title>
-                      </v-card>
-                    </v-col>
-                    <v-col cols="6">
-                      <v-card class="elevation-4" color="red">
-                        <v-img src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-                               height="200px"></v-img>
-                        <v-card-title class="align-self-center">ALOJAMIENTOS</v-card-title>
-                      </v-card>
-                    </v-col>
-                  </v-row>
-                  <v-row>
-                    <v-col cols="6">
-                      <v-card class="elevation-4" color="red">
-                        <v-img src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-                               height="200px"></v-img>
-                        <v-card-title class="align-self-center">SOLICITUDES</v-card-title>
-                      </v-card>
-                    </v-col>
-                    <v-col cols="6">
-                      <v-card class="elevation-4" color="red">
-                        <v-img src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-                               height="200px"></v-img>
-                        <v-card-title class="align-self-center">IMUEBLES FAVORITOS</v-card-title>
-                      </v-card>
-                    </v-col>
-                  </v-row>
-                </v-col>
-              </v-row>
             </v-col>
         </v-row>
       </v-container>
@@ -98,10 +60,17 @@ name: "Main-page",
       console.log(this.$store.state.auth.user);
       return this.$store.state.auth.user;
     },
-
+    loggedIn() {
+      return this.$store.state.auth.status.loggedIn;
+    }
   },
   created() {
-    this.getById(this.currentUser.id);
+    if(!this.loggedIn){
+      this.$router.push({name: 'login'});
+    }
+    if(this.currentUser) {
+      this.getById(this.currentUser.id);
+    }
   },
 }
 </script>
